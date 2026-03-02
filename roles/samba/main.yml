@@ -1,0 +1,5 @@
+    - name: Install samba package
+      tags: samba #Task2.1: name_of_tags  Task2.2.1: ansible-playbook --list-tags site.yml
+      package:    #Task2.2.2: ansible-playbook --tags centos site.yml -K
+          name: samba
+          state: latest

@@ -1,0 +1,15 @@
+---
+- hosts: web_servers
+  roles:
+    - apache
+  become: true
+  
+- hosts: db_servers
+  roles: 
+    - mariadb
+  become: true
+
+- hosts: file_servers
+  roles:
+    - samba
+  become: true 

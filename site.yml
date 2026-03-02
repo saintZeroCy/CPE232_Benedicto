@@ -43,7 +43,7 @@
       tags: apache, centos, httpd
       service:
           name: httpd
-          state: started
+          state: latest
       when: ansible_distribution == "CentOS"
 
 - hosts: db_servers  #Task 1.4: Targetting Specific Nodes
@@ -60,7 +60,7 @@
     - name: Mariadb- Restarting/Enabling
       service:
           name: mariadb-server
-          state: restarted
+          state: started
           enabled: true
       when: ansible_distribution == "CentOS"
 
