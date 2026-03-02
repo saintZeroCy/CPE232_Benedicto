@@ -5,12 +5,14 @@
   pre_tasks: #Task 1.3 
 
     - name: Install updates (CentOS)
+      tags: always
       dnf:
          #update_only: yes
          #update_cache: yes
       when: ansible_distribution == "CentOS"
 
     - name: Install updates (Ubuntu)
+      tags: always
       apt:
           #upgrade: dist
           #update_cache: yes
@@ -19,6 +21,7 @@
   tasks:  #Task 1.1: Targetting Specific Nodes
 
     - name: Install apache and php for Ubuntu servers
+      tags: apache,apache2,ubuntu
       apt:
          name:
             - apache2
@@ -28,11 +31,19 @@
       when: ansible_distribution == "Ubuntu"
 
     - name: Install apache and php for CentOS servers
+      tags: apache,centos,httpd
       dnf:
           name:
             - httpd
             - php
           state: latest
+      when: ansible_distribution == "CentOS"
+#Task 3: Managing Services 
+    - name: start httpd (CentOS)
+      tags: apache, centos, httpd
+      service:
+          name: httpd
+          state: started
       when: ansible_distribution == "CentOS"
 
 - hosts: db_servers  #Task 1.4: Targetting Specific Nodes
@@ -40,6 +51,7 @@
   tasks:
 
     - name: Install mariadb package (CentOs)
+      tags: centos, db, mariadb
       yum:
         name: mariadb-server
         state: latest
@@ -53,6 +65,7 @@
       when: ansible_distribution == "CentOS"
 
     - name: Install mariadb package (Ubuntu)
+      tags: db, mariadb, ubuntu
       apt:
           name: mariadb-server
           state: latest
@@ -63,6 +76,13 @@
   tasks:
 
     - name: Install samba package
-      package: 
+      tags: samba #Task2.1: name_of_tags  Task2.2.1: ansible-playbook --list-tags site.yml
+      package:    #Task2.2.2: ansible-playbook --tags centos site.yml -K
           name: samba
           state: latest
+#Task2.2.3: ansible-playbook --tags db site.yml -K
+#Task2.2.4: ansible-playbook --tags apache site.yml -K
+#Task2.2.5: ansible-playbook--tags "apache,db" site.yml -K
+
+#Task3: Managing Services
+
